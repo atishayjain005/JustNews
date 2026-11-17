@@ -34,7 +34,7 @@ test('failed requests recover on retry', async ({page}) => {
   await expect(page.getByRole('status')).toContainText('could not be loaded');
   await page.route('**/api/news', route => route.fulfill({json:{articles:[{title:'Recovered headline'}]}}));
   await page.getByRole('button', {name:'Try again'}).click();
-  await expect(page.getByRole('status')).toHaveText('1 headlines loaded.');
+  await expect(page.getByRole('status')).toHaveText('1 headline loaded.');
   await expect(page.locator('summary')).toHaveText('Recovered headline');
 });
 for (const body of ['not json', '{"articles":null}', '{"status":"error","articles":[]}']) {
@@ -58,4 +58,19 @@ test('slow requests time out and release busy state', async ({page}) => {
   await page.clock.fastForward(10001);
   await expect(page.getByRole('status')).toContainText('timed out');
   await expect(page.locator('#newsAccordion')).toHaveAttribute('aria-busy', 'false');
+});
+
+test('keyboard users can skip to headlines and expand a summary', async ({page}) => {
+  await feed(page, [{title:'Keyboard headline',content:'Readable summary'}]);
+  await expect(page.locator('summary')).toHaveText('Keyboard headline');
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', {name:'Skip to headlines'})).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('main')).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(page.locator('summary')).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page.getByText('Readable summary')).toBeVisible();
+  await page.keyboard.press('Space');
+  await expect(page.getByText('Readable summary')).not.toBeVisible();
 });

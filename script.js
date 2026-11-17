@@ -52,7 +52,7 @@ async function loadNews() {
     const data = await response.json();
     if (!data || !Array.isArray(data.articles) || data.status === 'error') throw new Error('Invalid news response');
     const count = renderArticles(data.articles);
-    status.textContent = count ? `${count} headlines loaded.` : 'No headlines available. Please try again later.';
+    status.textContent = count ? `${count} ${count === 1 ? 'headline' : 'headlines'} loaded.` : 'No headlines available. Please try again later.';
     retry.hidden = count > 0;
   } catch {
     status.textContent = controller.signal.aborted ? 'The request timed out. Please try again.' : 'News could not be loaded. Check your connection and try again.';
