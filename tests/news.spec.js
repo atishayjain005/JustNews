@@ -74,3 +74,12 @@ test('keyboard users can skip to headlines and expand a summary', async ({page})
   await page.keyboard.press('Space');
   await expect(page.getByText('Readable summary')).not.toBeVisible();
 });
+test('long headlines and article text fit the viewport without third-party assets', async ({page}) => {
+  const external = [];
+  page.on('request', request => { if (!request.url().startsWith('http://127.0.0.1:4180')) external.push(request.url()); });
+  await feed(page, [{title:'LongHeadline'.repeat(35), content:'LongContent'.repeat(80), url:'https://example.org'}]);
+  await page.locator('summary').click();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  expect(external).toEqual([]);
+  await page.screenshot({path:`test-results/news-${test.info().project.name}.png`,fullPage:true});
+});

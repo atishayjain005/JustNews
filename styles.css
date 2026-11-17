@@ -1,0 +1,22 @@
+:root { color-scheme: light; font-family: system-ui, sans-serif; color: #182a3a; background: #f4f7fa; line-height: 1.6; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+header { background: #182a3a; color: white; padding: 1.25rem max(1rem, calc((100% - 56rem) / 2)); }
+h1 { font-size: 1.75rem; margin: 0; }
+h1 span { color: #75e1f0; }
+h2 { font-size: 1.6rem; margin-bottom: .5rem; }
+main { max-width: 58rem; margin: 2rem auto; padding: 0 1rem 2rem; }
+p { overflow-wrap: anywhere; }
+#newsStatus { border-left: 4px solid #167081; background: #e7f1f5; padding: 1rem; }
+details { background: white; border: 1px solid #bac8d4; border-radius: .5rem; margin: 1rem 0; overflow-wrap: anywhere; }
+summary { cursor: pointer; padding: 1rem; color: #174b87; font-weight: 650; }
+details[open] summary { border-bottom: 1px solid #bac8d4; }
+details p { padding: 0 1rem; }
+details a { display: inline-block; margin: 0 1rem 1rem; color: #174b87; }
+button { font: inherit; padding: .65rem 1rem; min-height: 44px; border-radius: .3rem; border: 1px solid #174b87; color: white; background: #174b87; cursor: pointer; }
+button:disabled { opacity: .65; cursor: wait; }
+:focus-visible { outline: 3px solid #b24600; outline-offset: 4px; }
+.skip-link { position: absolute; top: -100px; color: #174b87; }
+.skip-link:focus { top: .5rem; left: .5rem; background: white; padding: 1rem; z-index: 1; }
+@media (max-width: 400px) { main { margin-top: 1rem; } h1 { font-size: 1.5rem; } }
+@media (forced-colors: active) { details, #newsStatus { border: 1px solid CanvasText; } }
